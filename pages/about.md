@@ -8,7 +8,7 @@ permalink: /about.html
 # Look in _includes/feature for options to easily add features to the page
 ---
 
-{% include feature/jumbotron.html objectid="https://cdil.lib.uidaho.edu/images/palouse_sm.jpg" %} 
+{% include feature/jumbotron.html objectid="/objects/syringacover.jpg" %} 
 
 {% include feature/nav-menu.html sections="The Affordable Communities Project;People" %}
 
@@ -26,9 +26,9 @@ The closure of the park brought on the mass-eviction of several working-class pe
 
 {% assign core = site.data.people | where: 'group','Core' %}
 {% for p in core %}
-<div class="d-flex">
+<div class="d-flex m-2">
   <div class="flex-shrink-0">
-    <img src="{{ p.image_small | relative_url }}" alt="{{ p.name }}">
+    <img style="max-width: 200px" class="img-fluid m-2 rounded" src="{{ p.image_thumb | relative_url }}" alt="{{ p.name }}">
   </div>
   <div class="flex-grow-1 ms-3">
     <h3>{{ p.name }}, {{ p.role }} ({{ p.dates }})</h3>
