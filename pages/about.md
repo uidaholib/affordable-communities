@@ -3,31 +3,41 @@ title: About
 layout: about
 permalink: /about.html
 # include CollectionBuilder info at bottom
-credits: true
+#credits: true
 # Edit the markdown on in this file to describe your collection
 # Look in _includes/feature for options to easily add features to the page
 ---
 
 {% include feature/jumbotron.html objectid="https://cdil.lib.uidaho.edu/images/palouse_sm.jpg" %} 
 
-{% include feature/nav-menu.html sections="About CollectionBuilder CSV;About the About Page" %}
+{% include feature/nav-menu.html sections="The Affordable Communities Project;People" %}
 
-## About CollectionBuilder CSV
+## The Affordable Communities Project
 
-This demo collection features items from the University of Idaho Library's [Digital Collections](https://www.lib.uidaho.edu/digital/), and is build using [CollectionBuilder-CSV](https://github.com/CollectionBuilder/collectionbuilder-csv).
+The Affordable Communities Project presents research surrounding housing crises and ideas for securing affordable, stable, and healthy communities in Moscow, the state of Idaho, across the country, and globally. It is meant to offer resources for studying threats to working-class communities and the different forms of housing that are imagined for addressing housing scarcity for families.
 
-CollectionBuilder-CSV is a "Stand Alone" template for creating digital collection and exhibit websites using Jekyll, given:
+Dr. Leontina Hormel is a Professor of Sociology at the University of Idaho, who has conducted community research for over two decades. This website brings together materials and discussions about affordable housing community development in the city of Moscow, the state of Idaho, across the United States, and elsewhere globally. 
 
-- a CSV of collection metadata
-- a folder of images, PDFs, audio, or video files
+The roots of this particular community development project site were established in Hormel's community action project with Syringa Mobile Home Park residents. From 2015 through 2018 she worked with and documented Syringa residents' experiences with water contamination and their efforts to improve their safety and living conditions in their community. Unfortunately, despite efforts to save their homes, residents were forced to relocate from Syringa when the park closed June 5, 2018. Syringa was constructed in the 1960s just three miles outside of Moscow, Idaho in Latah County. The park closed after several years of the park owner's insufficient in the water and wastewater disposal systems. 
 
-Driven by your collection metadata, the template generates engaging visualizations to browse and explore your objects.
-The resulting static site can be hosted on any basic web server.
+The closure of the park brought on the mass-eviction of several working-class people and families. The case of Syringa helps highlight the need for affordable housing in the state of Idaho and across the nation. 
 
-[CollectionBuilder](https://github.com/CollectionBuilder/) is an set of open source tools for creating digital collection and exhibit websites that are driven by metadata and powered by modern static web technology.
-See [CB Docs](https://collectionbuilder.github.io/cb-docs/) for detailed information.
+## People
 
-{% include feature/image.html objectid="demo_001" width="75" %} 
+{% assign core = site.data.people | where: 'group','Core' %}
+{% for p in core %}
+<div class="d-flex">
+  <div class="flex-shrink-0">
+    <img src="{{ p.image_small | relative_url }}" alt="{{ p.name }}">
+  </div>
+  <div class="flex-grow-1 ms-3">
+    <h3>{{ p.name }}, {{ p.role }} ({{ p.dates }})</h3>
+    <p>{{ p.biography }}</p>
+  </div>
+</div>
+{% endfor %}
 
-<!-- IMPORTANT!!! DELETE this comment and the include below when you are finished editing this page for your collection. The include below introduces about page features. They will show up on your collection's about page until you delete it.  -->
-{% include cb/about_the_about.md %} 
+## Other Collaborators
+{% assign others = site.data.people | where_exp: 'g', 'g.group != "Core"' %}
+{% for p in others %}
+- {{ p.name }}, {{ p.major }}, {{ p.dates }}{% endfor %}
