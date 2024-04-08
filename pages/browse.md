@@ -1,7 +1,7 @@
 ---
-title: Browse
-layout: browse
+title: Resources
+layout: browse-filter
 permalink: /browse.html
 ---
 
-## Browse Items
+## Browse Resources
