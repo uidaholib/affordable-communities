@@ -4,6 +4,9 @@ title: Home
 permalink: /
 ---
 
-{% include feature/jumbotron.html objectid="/objects/syringacover.jpg" padding="6em" %} 
+# {{ site.title }}
+
+*{{ site.tagline }}*
+{:.fs5 .ms-4 mb-4}
 
 {% include index/custom-carousel.html %}

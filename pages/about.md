@@ -4,7 +4,7 @@ layout: page-narrow
 permalink: /about.html
 ---
 
-{% include feature/jumbotron.html objectid="/objects/syringacover.jpg" %} 
+{% include feature/jumbotron.html objectid="/objects/syringacover.jpg" padding="6em" %} 
 
 ## The Affordable Communities Project
 
