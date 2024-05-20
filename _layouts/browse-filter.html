@@ -41,13 +41,15 @@ custom-foot: js/browse-js.html
 <div class="row">
     <div class="col-md-4">
 
+        <h3 class="h4">Filter Resources</h3>
+
         <div class="accordion" id="filterAccordion">
             <div class="accordion-item">
-                <h2 class="accordion-header">
+                <h4 class="accordion-header">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                         Resource Category
                     </button>
-                </h2>
+                </h4>
                 <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#filterAccordion">
                     <div class="accordion-body">
                         {% assign rawCategories = site.data.resources | map: 'category' | compact | join: ";" %}
@@ -59,11 +61,11 @@ custom-foot: js/browse-js.html
                 </div>
             </div>
             <div class="accordion-item">
-                <h2 class="accordion-header">
+                <h4 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#collapseTwo" aria-controls="collapseTwo">
                         Resource Type
                     </button>
-                </h2>
+                </h4>
                 <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
                     <div class="accordion-body">
                         {% assign rawCategories = site.data.resources | map: 'type' | compact | join: ";" %}
@@ -75,11 +77,11 @@ custom-foot: js/browse-js.html
                 </div>
             </div>
             <div class="accordion-item">
-                <h2 class="accordion-header">
+                <h4 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" aria-expanded="false" data-bs-target="#collapseThree" aria-controls="collapseThree">
                         Subjects
                     </button>
-                </h2>
+                </h4>
                 <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#filterAccordion">
                     <div class="accordion-body">
                         {% assign rawCategories = site.data.resources | map: 'subjects' | compact | join: ";" %}
