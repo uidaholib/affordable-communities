@@ -1,4 +1,5 @@
 {%- assign items = site.data.communities | where_exp: 'item','item.objectid' -%}
+{%- assign resources = site.data.resources -%}
 {%- assign items = items | where_exp: 'item','item.latitude != nil and item.longitude != nil' -%}
 {%- assign fields = site.data.config-map -%}
 <!-- load leaflet dependencies -->
@@ -18,10 +19,13 @@
     { 
         {% for f in fields %}{% if item[f.field] %}{{ f.field | escape | jsonify }}:{{ item[f.field] | strip | escape | jsonify }}, {%- endif -%}{%- endfor -%}
         {% if item.image_thumb %}"img": {{ item.image_thumb | relative_url | jsonify }},{% endif %}
-        {% if item.display_template %}"template": {{ item.display_template | escape | jsonify }}, {%- endif -%}
-        {% if item.format %}"format": {{ item.format | escape | jsonify }}, {%- endif -%}
-        {% if item.image_alt_text %}"alt": {{ item.image_alt_text | escape | jsonify }}, {%- endif -%}
-        {% if item.parentid %}"parent": {{ item.parentid | jsonify }}, {%- endif -%}
+        // related resources
+        "related": [
+            {% assign related = resources | where: 'related_community',item.objectid %}
+            {% for r in related %}
+            { "title": {{ r.title | escape | jsonify }}, "type": {{ r.type | escape | jsonify }}, "objectid": "{{ r.objectid }}" }{% unless forloop.last %}, {% endunless %}
+            {% endfor %}
+        ],
         "title": {{ item.title | escape | jsonify }},
         "id": {{ item.objectid | jsonify }} 
     } }{% unless forloop.last %}, {% endunless %}{% endfor %}
@@ -114,24 +118,23 @@
         feature.layer = layer;{% endif %}
         // find item link
         var itemHref = `{{ '/items/' | relative_url }}${ feature.properties.parent ? feature.properties.parent + ".html#" + feature.properties.id : feature.properties.id + ".html"}`;
-        // find image
-        var imgAlt = feature.properties.alt ? feature.properties.alt : feature.properties.title;
-        var thumbImg;
-        if (feature.properties.img) {
-            thumbImg = '<img class="map-thumb" src="' + feature.properties.img + '" alt="' + imgAlt + '">';
-        } else {
-            thumbImg = getIcon(feature.properties.template,feature.properties.format,"thumb")
-        }
+        
         // set up popup content
-        var popupTemplate = '<h2 class="h4"><a class="text-dark" href="' + itemHref + '">' +
-            feature.properties.title + '</a></h2><div class="text-center"><a href="' + itemHref + 
-            '" >' + thumbImg + '</a></div><p>';
+        var popupTemplate = '<h2 class="h4">' + feature.properties.title + '</h2><p>';
         {% for f in fields %}{% if f.display_name %}
         if (feature.properties[{{ f.field | escape | jsonify }}]) {
             popupTemplate += '<strong>{{ f.display_name }}:</strong> ' + feature.properties[{{ f.field | escape | jsonify }}] + '<br>'; 
         }
         {% endif %}{% endfor %}
-        popupTemplate += '</p><div class="text-center"><a class="btn btn-light" href="' + itemHref + '" >View Item</a></div>';
+        popupTemplate += '</p>';
+        if (feature.properties.related) {
+            popupTemplate += '<p><strong>Related resources:</strong></p><ul>'
+            for (let i=0; i < feature.properties.related.length; i++) {
+                popupTemplate += '<li><a href="{{ '/items/' | relative_url }}'+ feature.properties.related[i].objectid + '.html">' + feature.properties.related[i].title + '</a> (' + feature.properties.related[i].type + ')</li>';
+
+            };
+            popupTemplate += '</ul>';
+        }
         layer.bindPopup(popupTemplate);
     }
     function objectMarkers(feature,latlng) {
